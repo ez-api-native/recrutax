@@ -26,7 +26,7 @@ class Offer
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $companyDescritpion;
+    private $companyDescription;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -61,18 +61,6 @@ class Offer
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCompanyDescritpion(): ?string
-    {
-        return $this->companyDescritpion;
-    }
-
-    public function setCompanyDescritpion(string $companyDescritpion): self
-    {
-        $this->companyDescritpion = $companyDescritpion;
 
         return $this;
     }
