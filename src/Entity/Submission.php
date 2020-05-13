@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -11,6 +12,25 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Submission
 {
+    public const STATUS_CREATED = 'created';
+    public const STATUS_OPENED = 'opened';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_SCHEDULED = 'scheduled';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_REFUSED = 'refused';
+
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_CREATED,
+            self::STATUS_OPENED,
+            self::STATUS_PENDING,
+            self::STATUS_SCHEDULED,
+            self::STATUS_ACCEPTED,
+            self::STATUS_REFUSED,
+        ];
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -65,6 +85,7 @@ class Submission
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Choice(callback="getStatuses")
      */
     private $status;
 
