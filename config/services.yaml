@@ -26,3 +26,7 @@ services:
     App\EventListener\CreateSubmissionListener:
         tags:
             - {name: 'doctrine.event_listener', event: 'postPersist'}
+
+    App\EventListener\ProductOwnershipListener:
+        tags:
+            - {name: 'doctrine.event_listener', event: 'prePersist'}
