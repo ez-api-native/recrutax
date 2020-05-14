@@ -27,6 +27,6 @@ services:
         tags:
             - {name: 'doctrine.event_listener', event: 'postPersist'}
 
-    App\EventListener\ProductOwnershipListener:
+    App\EventListener\OwnershipListener:
         tags:
             - {name: 'doctrine.event_listener', event: 'prePersist'}
