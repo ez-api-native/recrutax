@@ -8,9 +8,22 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use App\Controller\SendTokenPasswordReset;
+use App\Controller\CheckTokenPasswordReset;
 
 /**
- * @ApiResource()
+ * @ApiResource(collectionOperations={
+ *     "request_new_password"={
+ *         "method"="POST",
+ *         "path"="/reset-password",
+ *         "controller"=SendTokenPasswordReset::class,
+ *     },
+ *    "check_token_password"={
+ *         "method"="POST",
+ *         "path"="/check-reset-password-token",
+ *         "controller"=CheckTokenPasswordReset::class,
+ *     }
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="`user`")
  */
@@ -49,6 +62,16 @@ class User implements UserInterface
      * @SerializedName("password")
      */
     private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="string", name="token_created_at", nullable=true)
+     */
+    protected $tokenCreatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Offer", mappedBy="owner", orphanRemoval=true)
@@ -246,5 +269,46 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken($token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function generateToken(): self
+    {
+        $this->token = mt_rand(100000, 999999);
+        $this->tokenCreatedAt = time();
+
+        return $this;
+    }
+
+    /**
+     *
+     * @param  \DateTime $createdAt
+     * @return $this
+     */
+    public function setTokenCreatedAt($tokenCreatedAt)
+    {
+        $this->tokenCreatedAt = $tokenCreatedAt;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getTokenCreatedAt()
+    {
+        return $this->tokenCreatedAt;
     }
 }
