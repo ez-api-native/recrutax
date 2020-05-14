@@ -37,6 +37,12 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var string The plain password
+     * @SerializedName("password")
+     */
+    private $plainPassword;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -98,6 +104,26 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     * @return User
+     */
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
