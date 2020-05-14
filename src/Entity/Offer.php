@@ -70,7 +70,7 @@ class Offer
         return $this->companyDescription;
     }
 
-    public function setCompanyDescription(?string $companyDescription): self
+    public function setCompanyDescription(string $companyDescription): self
     {
         $this->companyDescription = $companyDescription;
 
