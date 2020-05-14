@@ -19,22 +19,19 @@ class Mailer
 
         switch ($type) {
           case 'signup':
-            $email = $this->createMailSignup($params)
+            $email = $this->createMailSignup($params);
             break;
-          case 'newOffer'
-            $email = $this->createMailToken($params)
+          case 'newOffer':
+            $email = $this->createMailToken($params);
             break;
-          case 'canditateValidated'
-            $email = $this->createValidationToken($params)
+          case 'canditateValidated':
+            $email = $this->createValidationToken($params);
             break;
           default:
-            return false;
             break;
         }
 
-        $email
-        ->to($mailTo)
-        ->from('recrutax.2020@gmail.com');
+        $email->to($mailTo)->from('recrutax.2020@gmail.com');
 
         $this->mailer->send($email);
     }
