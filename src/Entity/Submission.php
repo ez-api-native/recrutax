@@ -103,6 +103,11 @@ class Submission
      */
     private $token;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $owner;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -251,6 +256,18 @@ class Submission
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

@@ -48,6 +48,11 @@ class Offer
      */
     private $place;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $owner;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +126,18 @@ class Offer
     public function setPlace(string $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
