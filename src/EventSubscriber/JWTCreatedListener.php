@@ -1,5 +1,5 @@
 <?php
-namespace App\EventSuscriber;
+namespace App\EventSubscriber;
 
 use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
