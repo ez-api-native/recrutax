@@ -1,0 +1,11 @@
+App\Entity\Submission:
+  submission_{1..15}:
+    firstname: <firstname()>
+    lastname: <lastname()>
+    email: <email()>
+    age: <randomNumber()>
+    address: <streetAddress()>
+    motivation: <text()>
+    wantedIncome: <randomNumber()>
+    status: created
+    token: <word()><randomNumber()>

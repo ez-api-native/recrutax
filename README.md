@@ -17,4 +17,10 @@ docker-compose exec php sh -c '
 '
 ```
 
+## Use fixtures
+You can update files in api/fixtures and name them by your entityName.yaml
+To generate fixtures :
+`docker-compose exec php bin/console hautelook:fixtures:load`
+
+
 Heroku : https://recrutax.herokuapp.com/ (updated from master branch)

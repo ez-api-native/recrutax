@@ -1,0 +1,8 @@
+App\Entity\Offer:
+    offer_{1..15}:
+        name: <name()>
+        contractType: <word()>
+        offerDescription: <text()>
+        companyDescription: <text()>
+        place: <streetAddress()>
+        startDate: <dateTime()>
