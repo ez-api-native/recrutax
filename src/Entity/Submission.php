@@ -7,11 +7,17 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use App\Controller\RetrieveSubmissionByToken;
 /**
  * @ApiResource(
  *     collectionOperations={
  *       "get",
- *       "post"={"security"="is_granted('ROLE_USER')"}
+ *       "post"={"security"="is_granted('ROLE_USER')"},
+ *       "retrieve_submission_by_token"={
+ *         "method"="GET",
+ *         "path"="/submission-by-token/{token}",
+ *         "controller"=RetrieveSubmissionByToken::class,
+ *     },
  *     },
  *     itemOperations={
  *       "get",
