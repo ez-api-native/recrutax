@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 use App\Controller\RetrieveSubmissionByToken;
 /**
@@ -27,6 +29,7 @@ use App\Controller\RetrieveSubmissionByToken;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\SubmissionRepository")
+ * @ApiFilter(SearchFilter::class, properties={"candidate": "exact"})
  */
 class Submission
 {
