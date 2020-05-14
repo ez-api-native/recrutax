@@ -58,7 +58,7 @@ class CreateAdminCommand extends Command
         $this->em->persist($user);
         $this->em->flush();
 
-        $io->success(sprintf('Welcome %s ! You are a super admin !', $user->getFirstname()));
+        $io->success(sprintf('Welcome %s ! You are a super admin !', $user->getUsername()));
 
         return 0;
     }

@@ -65,6 +65,18 @@ class Offer
         return $this;
     }
 
+    public function getCompanyDescription(): ?string
+    {
+        return $this->companyDescription;
+    }
+
+    public function setCompanyDescription(?string $companyDescription): self
+    {
+        $this->companyDescription = $companyDescription;
+
+        return $this;
+    }
+
     public function getOfferDescription(): ?string
     {
         return $this->offerDescription;
