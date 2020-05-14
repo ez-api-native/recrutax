@@ -3,7 +3,8 @@
   "env": {
     "APP_ENV": "prod",
     "APP_SECRET": {"generator": "secret"},
-    "CORS_ALLOW_ORIGIN": "https://your-client-url.com"
+    "CORS_ALLOW_ORIGIN": "https://recrutax.herokuapp.com/",
+    "TRUSTED_HOSTS": "recrutax.herokuapp.com"
   },
   "addons": [
     "heroku-postgresql"
