@@ -32,6 +32,11 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @SerializedName("roles")
+     */
+    private $plainRole;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -86,6 +91,24 @@ class User implements UserInterface
     {
         $this->roles = $roles;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainRole()
+    {
+        return $this->plainRole;
+    }
+
+    /**
+     * @param mixed $plainRole
+     * @return User
+     */
+    public function setPlainRole($plainRole)
+    {
+        $this->plainRole = $plainRole;
         return $this;
     }
 

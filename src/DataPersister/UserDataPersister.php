@@ -45,6 +45,16 @@ class UserDataPersister implements DataPersisterInterface
             );
             $data->eraseCredentials();
         }
+        if ($data->getPlainRole()) {
+            switch ($data->getPlainRole()) {
+                case 'candidate':
+                    $data->setRoles(['ROLE_CANDIDATE']);
+                    break;
+                case 'recruiter':
+                    $data->setRoles(['ROLE_RECRUITER']);
+                    break;
+            }
+        }
         $this->em->persist($data);
         $this->em->flush();
     }
