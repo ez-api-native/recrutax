@@ -13,6 +13,7 @@ use App\Controller\CheckTokenPasswordReset;
 
 /**
  * @ApiResource(collectionOperations={
+ *     "post",
  *     "request_new_password"={
  *         "method"="POST",
  *         "path"="/reset-password",
