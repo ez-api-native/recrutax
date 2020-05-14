@@ -1,5 +1,5 @@
 App\Entity\Submission:
-  submission_{1..15}:
+  submission{1..15}:
     firstname: <firstname()>
     lastname: <lastname()>
     email: <email()>
@@ -9,3 +9,5 @@ App\Entity\Submission:
     wantedIncome: <randomNumber()>
     status: created
     token: <word()><randomNumber()>
+    candidate: '@user<current()>'
+    offer: '@offer<current()>'
