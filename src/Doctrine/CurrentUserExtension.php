@@ -43,11 +43,7 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
             $queryBuilder->setParameter('current_user', $user);
         }
         if ($resourceClass === Submission::class && 'api_offers_submissions_get_subresource' !== $operationName) {
-            $queryBuilder->join(sprintf('%s.offer', $rootAlias), 'o');
-            $queryBuilder->expr()->orX(
-                $queryBuilder->expr()->eq('o.owner', ':current_user'),
-                $queryBuilder->expr()->eq(sprintf('%s.candidate', $rootAlias), ':current_user')
-            );
+            $queryBuilder->andWhere(sprintf('%s.candidate = :current_user', $rootAlias), ':current_user');
             $queryBuilder->setParameter('current_user', $user);
         }
     }
