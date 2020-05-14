@@ -8,7 +8,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *       "get",
+ *       "post"={"security"="is_granted('ROLE_USER')"}
+ *     },
+ *     itemOperations={
+ *       "get",
+ *       "delete",
+ *       "patch"={"security"="is_granted('ROLE_CANDIDATE')"},
+ *       "put"={"security"="is_granted('ROLE_CANDIDATE')"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\SubmissionRepository")
  */
 class Submission
@@ -40,12 +51,12 @@ class Submission
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
 
@@ -59,27 +70,27 @@ class Submission
     private $picture;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $age;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $motivation;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $wantedIncome;
 
@@ -93,10 +104,10 @@ class Submission
     private $resume;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Choice(callback="getStatuses")
      */
-    private $status;
+    private $status = self::STATUS_CREATED;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true, unique=true)
