@@ -32,7 +32,7 @@ class Mailer
           $email = $this->createMailResetPassword($params);
           break;
           default:
-            break;
+            return;
         }
 
         $email->to($mailTo)->from('recrutax.2020@gmail.com');
