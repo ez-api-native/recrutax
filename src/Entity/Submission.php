@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,7 +30,11 @@ class Submission
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var MediaObject|null
+     *
+     * @ORM\ManyToOne(targetEntity=MediaObject::class)
+     * @ORM\JoinColumn(nullable=true)
+     * @ApiProperty(iri="http://schema.org/image")
      */
     private $picture;
 
@@ -46,7 +51,7 @@ class Submission
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $adress;
+    private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -59,9 +64,13 @@ class Submission
     private $wantedIncome;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var MediaObject|null
+     *
+     * @ORM\ManyToOne(targetEntity=MediaObject::class)
+     * @ORM\JoinColumn(nullable=true)
+     * @ApiProperty(iri="http://schema.org/image")
      */
-    private $CV;
+    private $resume;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -102,12 +111,19 @@ class Submission
         return $this;
     }
 
-    public function getPicture(): ?string
+    /**
+     * @return MediaObject|null
+     */
+    public function getPicture(): ?MediaObject
     {
         return $this->picture;
     }
 
-    public function setPicture(string $picture): self
+    /**
+     * @param MediaObject|null $picture
+     * @return Submission
+     */
+    public function setPicture(?MediaObject $picture): self
     {
         $this->picture = $picture;
 
@@ -138,17 +154,37 @@ class Submission
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setAddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
+
+    /**
+     * @return MediaObject|null
+     */
+    public function getResume(): ?MediaObject
+    {
+        return $this->resume;
+    }
+
+    /**
+     * @param MediaObject|null $resume
+     * @return Submission
+     */
+    public function setResume(?MediaObject $resume): self
+    {
+        $this->resume = $resume;
+
+        return $this;
+    }
+
 
     public function getMotivation(): ?string
     {
@@ -170,18 +206,6 @@ class Submission
     public function setWantedIncome(int $wantedIncome): self
     {
         $this->wantedIncome = $wantedIncome;
-
-        return $this;
-    }
-
-    public function getCV(): ?string
-    {
-        return $this->CV;
-    }
-
-    public function setCV(string $CV): self
-    {
-        $this->CV = $CV;
 
         return $this;
     }
