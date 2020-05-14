@@ -3,12 +3,24 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *       "get",
+ *       "post"={"security"="is_granted('ROLE_RECRUITER')"}
+ *     },
+ *     itemOperations={
+ *       "get",
+ *       "delete",
+ *       "patch"={"security"="is_granted('ROLE_RECRUITER')"},
+ *       "put"={"security"="is_granted('ROLE_RECRUITER')"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\OfferRepository")
  */
 class Offer
@@ -57,7 +69,8 @@ class Offer
     private $owner;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Submission", mappedBy="offer", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Submission", mappedBy="offer")
+     * @ApiSubresource()
      */
     private $submissions;
 
