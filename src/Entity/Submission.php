@@ -103,6 +103,18 @@ class Submission
      */
     private $token;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="submissions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $candidate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Offer", inversedBy="submissions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $offer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -251,6 +263,30 @@ class Submission
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getCandidate(): ?User
+    {
+        return $this->candidate;
+    }
+
+    public function setCandidate(?User $candidate): self
+    {
+        $this->candidate = $candidate;
+
+        return $this;
+    }
+
+    public function getOffer(): ?Offer
+    {
+        return $this->offer;
+    }
+
+    public function setOffer(?Offer $offer): self
+    {
+        $this->offer = $offer;
 
         return $this;
     }

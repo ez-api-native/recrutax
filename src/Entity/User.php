@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -47,6 +49,22 @@ class User implements UserInterface
      * @SerializedName("password")
      */
     private $plainPassword;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Offer", mappedBy="owner", orphanRemoval=true)
+     */
+    private $offers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Submission", mappedBy="candidate")
+     */
+    private $submissions;
+
+    public function __construct()
+    {
+        $this->offers = new ArrayCollection();
+        $this->submissions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -166,5 +184,67 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Offer[]
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): self
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers[] = $offer;
+            $offer->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): self
+    {
+        if ($this->offers->contains($offer)) {
+            $this->offers->removeElement($offer);
+            // set the owning side to null (unless already changed)
+            if ($offer->getOwner() === $this) {
+                $offer->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Submission[]
+     */
+    public function getSubmissions(): Collection
+    {
+        return $this->submissions;
+    }
+
+    public function addSubmission(Submission $submission): self
+    {
+        if (!$this->submissions->contains($submission)) {
+            $this->submissions[] = $submission;
+            $submission->setCandidate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubmission(Submission $submission): self
+    {
+        if ($this->submissions->contains($submission)) {
+            $this->submissions->removeElement($submission);
+            // set the owning side to null (unless already changed)
+            if ($submission->getCandidate() === $this) {
+                $submission->setCandidate(null);
+            }
+        }
+
+        return $this;
     }
 }

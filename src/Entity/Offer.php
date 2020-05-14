@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,6 +49,22 @@ class Offer
      * @ORM\Column(type="string", length=255)
      */
     private $place;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="offers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Submission", mappedBy="offer", orphanRemoval=true)
+     */
+    private $submissions;
+
+    public function __construct()
+    {
+        $this->submissions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +139,49 @@ class Offer
     public function setPlace(string $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Submission[]
+     */
+    public function getSubmissions(): Collection
+    {
+        return $this->submissions;
+    }
+
+    public function addSubmission(Submission $submission): self
+    {
+        if (!$this->submissions->contains($submission)) {
+            $this->submissions[] = $submission;
+            $submission->setOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubmission(Submission $submission): self
+    {
+        if ($this->submissions->contains($submission)) {
+            $this->submissions->removeElement($submission);
+            // set the owning side to null (unless already changed)
+            if ($submission->getOffer() === $this) {
+                $submission->setOffer(null);
+            }
+        }
 
         return $this;
     }
