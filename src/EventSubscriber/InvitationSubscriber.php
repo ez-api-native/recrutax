@@ -51,7 +51,7 @@ final class InvitationSubscriber implements EventSubscriberInterface
         $this->mailer
             ->sendMail(
                 $submission->getEmail(),
-                'createMailToken',
+                'newOffer',
                 ['token' => $submission->getToken()]
             );
     }
