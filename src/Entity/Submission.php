@@ -125,7 +125,7 @@ class Submission
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="submissions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $candidate;
 

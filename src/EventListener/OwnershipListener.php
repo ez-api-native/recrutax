@@ -6,29 +6,30 @@ use App\Entity\Offer;
 use App\Entity\Submission;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class OwnershipListener
 {
-    public function __construct(TokenStorageInterface $tokenStorage = null)
+    /** @var TokenStorageInterface $tokenStorage */
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
     }
 
-    // the listener methods receive an argument which gives you access to
-    // both the entity object of the event and the entity manager itself
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
 
-        // if this listener only applies to certain entity types,
-        // add some code to check the entity type as early as possible
-        if ((!$entity instanceof Submission && !$entity instanceof Offer) ||  null === $this->tokenStorage->getToken() ) {
+        if (!$entity instanceof Submission || !$entity instanceof Offer ||  null === $this->tokenStorage->getToken() ) {
             return;
         }
 
+        /** @var UserInterface $user */
         $user = $this->tokenStorage->getToken()->getUser();
 
-        if($entity instanceof Submission){
+        if($entity instanceof Submission && \in_array('ROLE_CANDIDATE', $user->getRoles())){
             $entity->setCandidate($user);
         }
 

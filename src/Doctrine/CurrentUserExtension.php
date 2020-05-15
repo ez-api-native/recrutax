@@ -22,7 +22,9 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null): void
     {
-        $this->addWhere($queryBuilder, $resourceClass, $operationName);
+        if ($operationName === 'get') {
+            $this->addWhere($queryBuilder, $resourceClass);
+        }
     }
 
     public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, string $operationName = null, array $context = []): void
@@ -30,7 +32,7 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
-    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass, ?string $operationName = null): void
+    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
         /** @var $user User */
         if ($this->security->isGranted('ROLE_SUPER_ADMIN') || null === $user = $this->security->getUser()) {
@@ -42,8 +44,8 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
             $queryBuilder->andWhere(sprintf('%s.owner = :current_user', $rootAlias));
             $queryBuilder->setParameter('current_user', $user);
         }
-        if ($resourceClass === Submission::class && 'api_offers_submissions_get_subresource' !== $operationName) {
-            $queryBuilder->andWhere(sprintf('%s.candidate = :current_user', $rootAlias), ':current_user');
+        if ($resourceClass === Submission::class) {
+            $queryBuilder->andWhere(sprintf('%s.candidate = :current_user', $rootAlias));
             $queryBuilder->setParameter('current_user', $user);
         }
     }

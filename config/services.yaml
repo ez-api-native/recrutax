@@ -23,10 +23,6 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    App\EventListener\CreateSubmissionListener:
-        tags:
-            - {name: 'doctrine.event_listener', event: 'postPersist'}
-
     App\EventListener\OwnershipListener:
         tags:
             - {name: 'doctrine.event_listener', event: 'prePersist'}
